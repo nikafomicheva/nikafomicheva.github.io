@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вероника — вайбкодер, сайты для бизнеса с ИИ</title>
+<meta name="description" content="Делаю сайты для бизнеса с помощью ИИ: от маркетинговой задачи до работающей формы заявок, домена и аналитики.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Unbounded:wght@500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tangerine: #FF6A13;
+    --sunflower: #FFC53D;
+    --raspberry: #D6205E;
+    --plum: #2A1036;
+    --peach: #FFF4EA;
+    --white: #FFFFFF;
+    --plum-soft: #5B4466;
+    --green: #7BE0A0;
+    --display: "Unbounded", "Arial Black", sans-serif;
+    --text: "Onest", "Segoe UI", Arial, sans-serif;
+    --mono: "JetBrains Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--peach); color: var(--plum); font: 400 18px/1.6 var(--text); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--plum); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.08; margin: 0; }
+  h2 { font-size: clamp(30px, 4.4vw, 52px); font-weight: 700; letter-spacing: -0.01em; }
+  p { margin: 0 0 16px; max-width: 64ch; }
+  code { font: 400 .88em var(--mono); background: rgba(42,16,54,.08); padding: 1px 6px; border-radius: 5px; }
+  section { padding: 96px 0; }
+  .lead { font-size: 20px; max-width: 58ch; margin: 20px 0 48px; }
+  .tag { display: inline-block; background: var(--plum); color: var(--sunflower); font-weight: 700; font-size: 15px; padding: 6px 14px; border-radius: 999px; margin-bottom: 18px; }
+
+  /* Первый экран */
+  .hero { background: var(--tangerine); padding: 28px 0 72px; overflow: hidden; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 56px; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; font: 700 20px var(--display); }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--plum); display: block; }
+  .top a { font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--plum); }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center; }
+  .role { font: 700 16px var(--mono); letter-spacing: .02em; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(32px, 4.4vw, 56px); font-weight: 900; letter-spacing: -0.02em; }
+  .hero .sub { font-size: 20px; margin: 24px 0 32px; max-width: 36ch; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-block; padding: 16px 26px; border-radius: 999px; font-weight: 700; text-decoration: none; transition: transform .15s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-main { background: var(--plum); color: var(--sunflower); }
+  .btn-ghost { border: 2px solid var(--plum); }
+
+  /* Терминал: рабочий цикл на реальном проекте */
+  .term { background: var(--plum); color: var(--peach); border-radius: 22px; box-shadow: 10px 10px 0 var(--sunflower); overflow: hidden; }
+  .term-bar { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255,244,234,.12); }
+  .term-bar i { width: 12px; height: 12px; border-radius: 50%; background: var(--raspberry); display: block; }
+  .term-bar i:nth-child(2) { background: var(--sunflower); }
+  .term-bar i:nth-child(3) { background: var(--green); }
+  .term-bar span { margin-left: 10px; font: 400 13px var(--mono); opacity: .7; }
+  .term ol { list-style: none; margin: 0; padding: 18px 20px 8px; font: 400 14px/1.55 var(--mono); min-height: 360px; }
+  .term li { display: grid; grid-template-columns: 108px 1fr; gap: 10px; padding: 5px 0; transition: opacity .35s ease, transform .35s ease; }
+  .term li.is-hidden { opacity: 0; transform: translateY(6px); }
+  .term .k { color: var(--sunflower); font-weight: 700; }
+  .term .bug { color: #FF8FB3; }
+  .term .ok { color: var(--green); font-weight: 700; }
+  .term-foot { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px 16px; }
+  .replay { background: none; border: 0; padding: 0; font: 700 14px var(--text); color: var(--sunflower); text-decoration: underline; cursor: pointer; }
+  .replay:focus-visible { outline-color: var(--sunflower); }
+  .term-note { font: 400 13px var(--text); opacity: .7; margin: 0; }
+
+  /* Цифры */
+  .facts { background: var(--plum); color: var(--peach); padding: 40px 0; }
+  .facts ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .facts b { display: block; white-space: nowrap; font: 900 clamp(26px, 2.9vw, 36px)/1 var(--display); color: var(--sunflower); margin-bottom: 8px; }
+  .facts span { font-size: 16px; }
+
+  /* Проект */
+  .project-head { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: start; margin-bottom: 48px; }
+  .meta { color: var(--plum-soft); font-size: 16px; margin-top: 18px; }
+  .brief { background: var(--white); border: 3px solid var(--plum); border-radius: 24px; padding: 24px 28px; }
+  .brief h3 { font-size: 18px; margin-bottom: 12px; }
+  .brief ul { margin: 0; padding-left: 20px; }
+  .brief li { margin-bottom: 8px; }
+  .screens { display: grid; grid-template-columns: 2.2fr 1fr; gap: 20px; align-items: start; }
+  .screens img { width: 100%; height: auto; display: block; border-radius: 18px; border: 3px solid var(--plum); background: var(--white); }
+  .screens figure { margin: 0; }
+  .screens figcaption { font-size: 15px; margin-top: 10px; color: var(--plum-soft); }
+  .layers { list-style: none; margin: 56px 0 0; padding: 0; border-top: 3px solid var(--plum); }
+  .layers li { display: grid; grid-template-columns: 220px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(42,16,54,.2); }
+  .layers .name { font: 700 18px var(--display); }
+  .result { margin-top: 40px; background: var(--sunflower); border-radius: 24px; padding: 28px 32px; display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
+  .result .big { font: 900 clamp(36px, 6vw, 72px)/1 var(--display); color: var(--raspberry); white-space: nowrap; }
+  .result p { margin: 0; font-size: 18px; }
+  .result { transition: opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1.2); }
+  .result.is-waiting { opacity: 0; transform: translateX(-80px); }
+  .result .big { display: inline-block; font-variant-numeric: tabular-nums; }
+  .result .big.is-pop { animation: pop .45s ease; }
+  @keyframes pop { 50% { transform: scale(1.12); } }
+  .link-out { display: inline-block; margin-top: 24px; font-weight: 700; }
+  .marketing { margin-top: 64px; }
+  .marketing h3 { font-size: 26px; margin-bottom: 14px; }
+  .marketing-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; margin-top: 24px; }
+  .plain-list { margin: 0; padding-left: 22px; }
+  .plain-list li { margin-bottom: 12px; }
+  .marketing figure { margin: 0; }
+  .marketing img { width: 100%; height: auto; display: block; border-radius: 18px; border: 3px solid var(--plum); }
+  .marketing figcaption { font-size: 15px; margin-top: 10px; color: var(--plum-soft); }
+  .bug-grid .bug-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* Баги */
+  .bugs { background: var(--white); }
+  .bug-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .bug-card { border: 3px solid var(--plum); border-radius: 24px; padding: 24px 26px; background: var(--peach); }
+  .bug-card h3 { font-size: 19px; line-height: 1.25; margin-bottom: 14px; }
+  .bug-card dl { margin: 0; display: grid; grid-template-columns: 96px 1fr; gap: 8px 12px; font-size: 16px; }
+  .bug-card dt { font: 700 13px/1.9 var(--mono); text-transform: uppercase; color: var(--raspberry); }
+  .bug-card dt.fix { color: #16804A; }
+  .bug-card dd { margin: 0; }
+  .bug-card .where { font: 700 13px var(--mono); color: var(--tangerine); text-transform: uppercase; margin: 0 0 8px; }
+
+  /* Другие проекты */
+  .more-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { background: var(--white); border: 3px solid var(--plum); border-radius: 24px; padding: 26px; display: flex; flex-direction: column; }
+  .card .kind { font: 700 13px var(--mono); color: var(--tangerine); text-transform: uppercase; margin-bottom: 10px; }
+  .card h3 { font-size: 20px; line-height: 1.2; margin-bottom: 12px; }
+  .card p { font-size: 16px; }
+  .card .stack { margin-top: auto; font: 400 13px var(--mono); color: var(--plum-soft); }
+  .card-link { font-weight: 700; margin-top: 4px; }
+  .card img { width: 100%; height: auto; display: block; border-radius: 12px; border: 2px solid var(--plum); margin-bottom: 16px; }
+
+  /* Как работаю с ИИ */
+  .ai { background: var(--sunflower); }
+  .pipeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: s; }
+  .pipeline li {
+    background: var(--peach); border: 3px solid var(--plum); border-radius: 22px; padding: 22px 24px; counter-increment: s;
+    box-shadow: 0 0 0 var(--plum);
+    transition: transform .35s cubic-bezier(.3,1.6,.5,1), box-shadow .35s ease, opacity .6s ease;
+  }
+  .pipeline li:hover { transform: translateY(-8px) rotate(-1deg); box-shadow: 6px 8px 0 var(--plum); }
+  .pipeline li.is-waiting { opacity: 0; transform: translateY(40px); }
+  .pipeline li::before { content: "0" counter(s); display: block; font: 900 34px/1 var(--display); color: var(--tangerine); margin-bottom: 10px; }
+  .pipeline h3 { font-size: 19px; margin-bottom: 8px; }
+  .pipeline p { font-size: 16px; margin: 0; }
+  .tools { margin-top: 40px; border-top: 3px solid var(--plum); padding-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 40px; }
+  .tools p { margin: 0; font-size: 17px; }
+
+  /* Навыки */
+  .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .skill-col { border-top: 8px solid var(--tangerine); padding-top: 20px; }
+  .skill-col.mid { border-top-color: var(--raspberry); }
+  .skill-col.learn { border-top-color: var(--plum); }
+  .skill-col h3 { font-size: 21px; margin-bottom: 14px; }
+  .skill-col ul { margin: 0; padding-left: 20px; }
+  .skill-col li { margin-bottom: 8px; }
+
+  .about { display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: center; }
+  .about-photo { margin: 0; background: var(--sunflower); border-radius: 28px; box-shadow: 10px 10px 0 var(--plum); overflow: hidden; max-width: 420px; }
+  .about-photo img { width: 100%; height: auto; display: block; }
+
+  .contact { background: var(--plum); color: var(--peach); padding: 110px 0; }
+  .contact p { font-size: 20px; }
+  .contact a:focus-visible { outline-color: var(--sunflower); }
+  .other-contacts { list-style: none; margin: 36px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px; font-size: 18px; }
+  .other-contacts a { display: inline-block; padding: 14px 24px; border: 2px solid var(--sunflower); border-radius: 999px; color: var(--sunflower); font-weight: 700; text-decoration: none; transition: background .2s ease, color .2s ease, transform .15s ease; }
+  .other-contacts a:hover { background: var(--sunflower); color: var(--plum); transform: translateY(-2px); }
+  .other-contacts span { display: block; font-size: 13px; font-weight: 500; opacity: .8; }
+
+  @media (max-width: 900px) {
+    .hero-grid, .project-head, .about, .tools, .bug-grid, .marketing-grid { grid-template-columns: 1fr; }
+    .facts ul, .pipeline, .more-grid, .skills { grid-template-columns: 1fr 1fr; }
+    .layers li { grid-template-columns: 1fr; gap: 4px; }
+    .top { margin-bottom: 36px; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    .wrap { padding: 0 16px; }
+    section { padding: 64px 0; }
+    .facts ul, .pipeline, .more-grid, .skills, .screens { grid-template-columns: 1fr; }
+    .result { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+    .term ol { font-size: 12.5px; min-height: 0; }
+    .term li { grid-template-columns: 1fr; gap: 0; }
+    .bug-card dl { grid-template-columns: 1fr; gap: 2px; }
+    .bug-card dd { margin-bottom: 8px; }
+    .btn { width: 100%; text-align: center; }
+    .top a { font-size: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn, .term li, .result, .pipeline li { transition: none; }
+    .pipeline li:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <span class="brand"><img class="avatar" src="img/veronika-avatar.png" alt="" width="44" height="44">Вероника</span>
+      <a href="https://t.me/NikaFomi4eva">Написать в Telegram</a>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <p class="role">// вайбкодер · сайты для бизнеса с ИИ</p>
+        <h1>Превращаю маркетинговую задачу в сайт, который приносит заявки</h1>
+        <p class="sub">Собираю сайты с помощью ИИ и довожу их до конца: форма заявок, домен, SSL, аналитика и SEO. Нахожу и чиню баги сама, по логам.</p>
+        <div class="buttons">
+          <a class="btn btn-main" href="#project">Смотреть проект</a>
+          <a class="btn btn-ghost" href="#bugs">Какие баги я чинила</a>
+        </div>
+      </div>
+
+      <div class="term" aria-label="Рабочий цикл на реальном проекте: от задачи до сайта в сети">
+        <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>abalife-center.ru — как это было</span></div>
+        <ol id="term">
+          <li><span class="k">задача</span><span>сайт детского центра, цель — запись на бесплатный разбор</span></li>
+          <li><span class="k">структура</span><span>первый экран → с чем приходят → услуги → цены → специалист → отзывы → вопросы → форма</span></li>
+          <li><span class="k">промпт</span><span>«Сделай первый экран для встревоженных родителей: спокойный тон, одна кнопка записи…»</span></li>
+          <li><span class="k">генерация</span><span>index.html, shkola.html, privacy.html, send.php</span></li>
+          <li><span class="k">проверка</span><span class="bug">с Android в РФ сайт не открывается</span></li>
+          <li><span class="k">правка</span><span>переезд на российский хостинг, DNS, Let’s Encrypt</span></li>
+          <li><span class="k">проверка</span><span class="bug">заявки уходят через сервис в США — нарушение 152-ФЗ</span></li>
+          <li><span class="k">правка</span><span>свой обработчик: fetch → send.php → почта центра</span></li>
+          <li><span class="k">деплой</span><span class="ok">✓ сайт в сети, первые оплаты пришли из поиска</span></li>
+        </ol>
+        <div class="term-foot">
+          <p class="term-note">Реальная история, не пример</p>
+          <button class="replay" id="term-replay" type="button">Показать ещё раз</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="facts">
+  <div class="wrap">
+    <ul>
+      <li><b>3</b><span>страницы в сети, которые я собрала с ИИ и поддерживаю сама</span></li>
+      <li><b>7</b><span>проблем, найденных и решённых на живых проектах</span></li>
+      <li><b>каждый 5-й</b><span>посетитель из поиска оставляет заявку на сайте центра</span></li>
+      <li><b>222 700 ₽</b><span>выручка центра за сентябрь, второй месяц работы</span></li>
+    </ul>
+  </div>
+</div>
+
+<main>
+  <section id="project">
+    <div class="wrap">
+      <div class="project-head">
+        <div>
+          <span class="tag">Проект 1 · сайт под ключ</span>
+          <h2>Сайт детского нейроцентра с нуля</h2>
+          <p class="meta">«ABA лайф», Москва · июль — сентябрь 2026 · всё сделала одна, с Claude Code</p>
+          <p>Центр только открылся: его никто не знал, отзывов не было. Сайт читают встревоженные родители особенных детей, поэтому нужен спокойный тон и мягкий первый шаг. А Яндекс строго проверяет медицинскую тему и не пропускает многие слова.</p>
+        </div>
+        <div class="brief">
+          <h3>Маркетинговое задание</h3>
+          <ul>
+            <li>Целевое действие: запись на бесплатный разбор</li>
+            <li>Лестница цены: разбор 0 ₽ → диагностика 2 500 ₽ → абонемент</li>
+            <li>Отдельная страница для школьников под свою рекламу</li>
+            <li>Видеть, откуда пришла каждая заявка</li>
+            <li>Данные родителей хранить в России по закону</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screens">
+        <figure><img src="img/aba-desktop.png" alt="Сайт нейроцентра на компьютере: первый экран с записью на бесплатный разбор" loading="lazy"><figcaption>Первый экран: одна главная кнопка и понятный бесплатный шаг</figcaption></figure>
+        <figure><img src="img/aba-mobile.png" alt="Сайт нейроцентра на телефоне" loading="lazy"><figcaption>Мобильная версия: родители чаще ищут с телефона</figcaption></figure>
+      </div>
+
+      <ul class="layers">
+        <li><span class="name">Вёрстка</span><span>HTML, CSS, JavaScript без сборщиков: главная, страница для школьников, политика конфиденциальности, чек-лист в обмен на контакт. Адаптив под телефон.</span></li>
+        <li><span class="name">Форма заявок</span><span>Отправка через <code>fetch</code>, ответ сервера в JSON. Обработчик <code>send.php</code> на сервере в РФ: защита от спама (скрытое поле, не больше одной заявки в 20 секунд с одного адреса, проверка источника запроса), лог заявок вне корня сайта. В письме видно, с какой страницы пришла заявка.</span></li>
+        <li><span class="name">Домен и хостинг</span><span>Домен на reg.ru, DNS, SSL от Let’s Encrypt, редирект на https, почта домена с DKIM и DMARC, чтобы письма с заявками не попадали в спам.</span></li>
+        <li><span class="name">Аналитика</span><span>Яндекс Метрика, цели прямо в коде: отправка формы, клик по телефону, Telegram и WhatsApp. UTM-метки на рекламных ссылках.</span></li>
+        <li><span class="name">SEO</span><span><code>sitemap.xml</code>, <code>robots.txt</code>, title и description, подтверждение в Яндекс Вебмастере, карта с карточкой организации на странице.</span></li>
+        <li><span class="name">Деплой</span><span>Выкладка архивом через панель хостинга, после каждой выкладки проверяю живую страницу снаружи. Чек-лист на случай переезда центра: сайт, карты, реклама, документы.</span></li>
+      </ul>
+
+      <div class="result" id="result">
+        <div class="big" id="result-sum">222 700 ₽</div>
+        <p>выручка центра за сентябрь по всем каналам: Яндекс Директ, Яндекс Карты и Авито (данные на 29 сентября). За август, первый месяц работы, было 138 000 ₽.</p>
+      </div>
+      <a class="link-out" href="https://abalife-center.ru/" target="_blank" rel="noopener">Открыть сайт abalife-center.ru →</a>
+
+      <div class="marketing">
+        <h3>Маркетинг вокруг сайта</h3>
+        <p>Сайт сам по себе заявок не приносит, поэтому трафик на него я тоже вела сама.</p>
+        <div class="marketing-grid">
+          <ul class="plain-list">
+            <li><b>Анализ конкурентов.</b> Разобрала 8 центров на Авито: цены, предложения, тексты, слабые места.</li>
+            <li><b>Семантическое ядро через Wordstat.</b> Собрала, по каким словам родители ищут занятия, посчитала спрос и сезонность. Эти слова легли в тексты сайта, объявлений и в рекламу.</li>
+            <li><b>Тексты объявлений.</b> Написала объявления для Авито и Яндекс Директа. На Авито переписала текст в 3 раза короче, когда увидела, что люди не кликают по объявлению в ленте.</li>
+            <li><b>Картинки для карточек.</b> Сделала обложки объявлений и оформила карточку центра на Яндекс Картах.</li>
+          </ul>
+          <figure><img src="img/aba-avito.jpg" alt="Объявление центра на Авито" loading="lazy"><figcaption>Объявление на Авито: на рекламу потратили 4 823 ₽, написали 7 семей, одна купила абонемент за 34 500 ₽</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bugs" class="bugs">
+    <div class="wrap">
+      <h2>Баги, которые я нашла и починила</h2>
+      <p class="lead">ИИ быстро пишет код, но проверять его приходится человеку. Вот что ломалось на живых проектах и как я это нашла.</p>
+      <div class="bug-grid">
+        <article class="bug-card"><p class="where">Сайт нейроцентра</p>
+          <h3>Сайт не открывался у клиентов с Android</h3>
+          <dl>
+            <dt>Причина</dt><dd>Сайт стоял на Cloudflare, а российские провайдеры его замедляют.</dd>
+            <dt class="fix">Решение</dt><dd>Перенесла на российский хостинг, переключила DNS, выпустила сертификат.</dd>
+          </dl>
+        </article>
+        <article class="bug-card"><p class="where">Сайт нейроцентра</p>
+          <h3>Не выпускался SSL-сертификат</h3>
+          <dl>
+            <dt>Лог</dt><dd><code>SERVFAIL looking up CAA</code></dd>
+            <dt>Причина</dt><dd>Технический адрес хостинга стоял в списке псевдонимов сайта.</dd>
+            <dt class="fix">Решение</dt><dd>Убрала псевдоним, сертификат выпустился, включила редирект на https.</dd>
+          </dl>
+        </article>
+        <article class="bug-card"><p class="where">Сайт нейроцентра</p>
+          <h3>Форма могла показать «ошибку», хотя заявка ушла</h3>
+          <dl>
+            <dt>Причина</dt><dd>Хостинг печатает предупреждения PHP прямо в ответ сервера, и JSON ломается.</dd>
+            <dt class="fix">Решение</dt><dd>Отключила показ ошибок в ответе, пишу их в отдельный лог, закрытый из интернета.</dd>
+          </dl>
+        </article>
+        <article class="bug-card"><p class="where">Сайт нейроцентра</p>
+          <h3>Исправление на сервере «не применялось»</h3>
+          <dl>
+            <dt>Причина</dt><dd>Панель хостинга не перезаписывает одиночный файл при загрузке: на сервере оставался старый <code>send.php</code>.</dd>
+            <dt class="fix">Решение</dt><dd>Нашла по дате файла. Выкладываю архивом с распаковкой, правило записала в инструкцию по деплою.</dd>
+          </dl>
+        </article>
+        <article class="bug-card"><p class="where">Сайт нейроцентра</p>
+          <h3>Яндекс Бизнес не пропускал карточку и рекламу центра</h3>
+          <dl>
+            <dt>Причина</dt><dd>На сайте и в карточке были медицинские термины, а эту тему Яндекс проверяет строго.</dd>
+            <dt class="fix">Решение</dt><dd>Вычистила термины с сайта и из карточки, заменила их понятными родителям словами. Модерацию прошли.</dd>
+          </dl>
+        </article>
+        <article class="bug-card"><p class="where">Сайт нейроцентра</p>
+          <h3>Метрика не считала посетителей</h3>
+          <dl>
+            <dt>Причина</dt><dd>Опечатка в фильтре счётчика отсекала визиты.</dd>
+            <dt class="fix">Решение</dt><dd>Нашла и исправила, сверила цифры с заявками.</dd>
+          </dl>
+        </article>
+        <article class="bug-card"><p class="where">Онлайн-школа Виталия Новикова</p>
+          <h3>Ссылки открывались внутри урока, а не в новой вкладке</h3>
+          <dl>
+            <dt>Причина</dt><dd>Страница встроена в онлайн-курс через iframe, а у ссылок не было <code>target="_blank"</code>.</dd>
+            <dt class="fix">Решение</dt><dd>Заметила при проверке с телефона, добавила атрибут, проверила живую страницу.</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="wrap">
+      <h2>Другие проекты</h2>
+      <p class="lead">Для онлайн-школы бизнес-тренера Виталия Новикова, июль — сентябрь 2026.</p>
+      <div class="more-grid">
+        <article class="card">
+          <p class="kind">Интерактивная страница</p>
+          <h3>Проверка «Где вы недобираете прибыль»</h3>
+          <p>Тест для владельцев бизнеса: отвечаешь на вопросы и сразу видишь результат. Показывали зрителям во время вебинара, ответы сохраняются в браузере.</p>
+          <p class="stack">HTML · CSS · JavaScript · localStorage · Git · GitHub Pages</p>
+          <a class="card-link" href="https://novikov-school-now.github.io/proverka/" target="_blank" rel="noopener">Открыть страницу →</a>
+        </article>
+        <article class="card">
+          <p class="kind">Интерактивная страница</p>
+          <h3>Определитель для бесплатного курса</h3>
+          <p>Раньше был файлом на скачивание, и у всех ломались переходы по ссылкам. Перенесла на GitHub Pages и встроила в урок курса.</p>
+          <p class="stack">HTML · JavaScript · Git · GitHub Pages · iframe</p>
+          <a class="card-link" href="https://novikov-school-now.github.io/kto-naprotiv/" target="_blank" rel="noopener">Открыть страницу →</a>
+        </article>
+        <article class="card">
+          <p class="kind">Автоматизация</p>
+          <h3>Telegram-бот и воронка продаж</h3>
+          <img src="img/bot-scheme.jpg" alt="Схема сценария бота в конструкторе BotHelp" loading="lazy">
+          <p>Бот приглашает на эфиры, напоминает и продаёт. 350 подписчиков, в 20 раз больше переходов из Instagram в школу.</p>
+          <p class="stack">BotHelp · диплинки · UTM · Яндекс Метрика</p>
+        </article>
+      </div>
+      <p class="meta">И эту страницу я тоже собрала с ИИ, по тому же циклу.</p>
+    </div>
+  </section>
+
+  <section id="ai" class="ai">
+    <div class="wrap">
+      <h2>Как я работаю с ИИ</h2>
+      <p class="lead">ИИ пишет код, а я отвечаю за то, чтобы получилось то, что нужно бизнесу, и чтобы это работало.</p>
+      <ol class="pipeline">
+        <li><h3>Задача</h3><p>Выясняю, какое целевое действие нужно бизнесу, кто клиент и откуда он придёт.</p></li>
+        <li><h3>Структура</h3><p>Раскладываю страницу на блоки: первый экран, призыв к действию, доверие, возражения, форма.</p></li>
+        <li><h3>Промпт</h3><p>Ставлю ИИ задачу по одному блоку: контекст, ограничения, как проверить результат.</p></li>
+        <li><h3>Генерация</h3><p>Работаю в Claude Code: он видит все файлы проекта и сам вносит правки.</p></li>
+        <li><h3>Проверка</h3><p>Смотрю на телефоне и компьютере, отправляю тестовую заявку, читаю логи и ответы сервера.</p></li>
+        <li><h3>Правки</h3><p>Итерирую, пока не будет работать и хорошо выглядеть. Решения записываю, чтобы не наступать на те же грабли.</p></li>
+      </ol>
+      <div class="tools">
+        <p><b>Память проекта.</b> У каждого проекта свои правила и заметки для ИИ: как устроен сайт, как выкладывать, что уже пробовали.</p>
+        <p><b>Свои инструменты.</b> Настраиваю ИИ-помощников под задачи: отдельные проверяют код и дизайн, отдельные ищут информацию.</p>
+        <p><b>Проверка снаружи.</b> После выкладки проверяю живую страницу: ответ сервера, содержимое, мобильную версию.</p>
+        <p><b>Git.</b> Страницы на GitHub Pages выкладываю через репозиторий: коммит, и через минуту обновление в сети.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <h2>Что умею</h2>
+      <p class="lead">Что делаю сама, что делаю вместе с ИИ и что изучаю прямо сейчас.</p>
+      <div class="skills">
+        <div class="skill-col">
+          <h3>Уверенно</h3>
+          <ul>
+            <li>Маркетинговая логика сайта: целевое действие, первый экран, CTA, лиды</li>
+            <li>Тексты и структура страницы</li>
+            <li>Проверка мобильной версии и QA</li>
+            <li>Домены, DNS, SSL, хостинг</li>
+            <li>Яндекс Метрика, цели, UTM, Вебмастер</li>
+          </ul>
+        </div>
+        <div class="skill-col mid">
+          <h3>Делаю с ИИ</h3>
+          <ul>
+            <li>HTML, CSS, JavaScript</li>
+            <li>Формы и обработчик на PHP</li>
+            <li>Запросы к серверу и ответы в JSON</li>
+            <li>Чтение логов и поиск багов</li>
+            <li>Git и GitHub Pages</li>
+          </ul>
+        </div>
+        <div class="skill-col learn">
+          <h3>Изучаю сейчас</h3>
+          <ul>
+            <li>React и Node.js</li>
+            <li>Базы данных: создать, прочитать, изменить, удалить запись</li>
+            <li>Отправка заявок в Telegram через API бота</li>
+            <li>Подключение CRM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap about">
+      <figure class="about-photo"><img src="img/veronika-home.jpg" alt="Вероника работает из дома с ноутбуком" width="800" height="800" loading="lazy"></figure>
+      <div>
+        <h2>Обо мне</h2>
+        <p style="margin-top:24px;">Меня зовут Вероника. У меня есть опыт бухгалтера, продажника, селлера на маркетплейсах, аккаунт-менеджера и менеджера проектов в диджитал-агентстве. Поэтому я понимаю бизнес не только как маркетолог, но и изнутри: как считаются деньги, как продают и зачем бизнесу сайт.</p>
+        <p>Теперь я занимаюсь вайбкодингом: вместе с нейросетями делаю сайты и страницы для реальных клиентов — детского центра в Москве и онлайн-школы Виталия Новикова. И каждый раз поражаюсь, что мои возможности теперь практически безграничны.</p>
+        <p>Живу в Уфе, работаю удалённо. Быстро разбираюсь в незнакомом сервисе и не бросаю задачу, пока она не заработает.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="contact">
+  <div class="wrap">
+    <h2>Давайте обсудим задачу</h2>
+    <p style="margin-top:18px;">Готова сделать тестовое задание и рассказать о любом проекте подробнее.</p>
+    <ul class="other-contacts">
+      <li><a href="https://t.me/NikaFomi4eva"><span>Telegram</span>@NikaFomi4eva</a></li>
+      <li><a href="https://wa.me/79174986033"><span>WhatsApp</span>+7 917 498-60-33</a></li>
+      <li><a href="mailto:ver5285@yandex.ru"><span>Почта</span>ver5285@yandex.ru</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  // В разметке все строки видны сразу: без JS и при печати страница полная.
+  var termLines = document.querySelectorAll("#term li");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var termRunning = false;
+
+  function wait(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  async function playTerm() {
+    if (reduceMotion || termRunning) return;
+    termRunning = true;
+    termLines.forEach(function (line) { line.classList.add("is-hidden"); });
+    await wait(500);
+    for (var i = 0; i < termLines.length; i++) {
+      termLines[i].classList.remove("is-hidden");
+      await wait(termLines[i].querySelector(".bug") ? 1100 : 650);
+    }
+    termRunning = false;
+  }
+
+  document.getElementById("term-replay").addEventListener("click", playTerm);
+  playTerm();
+
+  // Блок с выручкой: выплывает сбоку, сумма считается от нуля. Без JS сумма видна сразу.
+  var RESULT_TOTAL = 222700;
+  var resultBox = document.getElementById("result");
+  var resultSum = document.getElementById("result-sum");
+
+  function countUp(duration) {
+    var start = performance.now();
+    function frame(now) {
+      var t = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - t, 3);
+      resultSum.textContent = Math.round(RESULT_TOTAL * eased).toLocaleString("ru-RU") + " ₽";
+      if (t < 1) requestAnimationFrame(frame); else resultSum.classList.add("is-pop");
+    }
+    requestAnimationFrame(frame);
+  }
+
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    resultBox.classList.add("is-waiting");
+    resultSum.textContent = "0 ₽";
+    var resultObserver = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      resultObserver.disconnect();
+      resultBox.classList.remove("is-waiting");
+      setTimeout(function () { countUp(1600); }, 300);
+    }, { threshold: 0.4 });
+    resultObserver.observe(resultBox);
+  }
+
+  // Шаги работы с ИИ выплывают снизу по очереди.
+  var pipelineSteps = document.querySelectorAll(".pipeline li");
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    pipelineSteps.forEach(function (step) { step.classList.add("is-waiting"); });
+    var pipelineObserver = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      pipelineObserver.disconnect();
+      pipelineSteps.forEach(function (step, i) {
+        setTimeout(function () { step.classList.remove("is-waiting"); }, i * 140);
+      });
+    }, { threshold: 0.2 });
+    pipelineObserver.observe(document.querySelector(".pipeline"));
+  }
+</script>
+</body>
+</html>
